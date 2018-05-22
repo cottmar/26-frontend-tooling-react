@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-
+import faker from 'faker';
+import cowsay from 'cowsay-browser';
 import '../style/main.scss';
 
 class HeaderComponent extends React.Component {
   render() {
     return (
       <header>
-        <h1>Yousay Cowsay Moo</h1>
+        <h1>Generate Cowsay Lorem</h1>
       </header>
     );
   }
@@ -16,30 +17,16 @@ class HeaderComponent extends React.Component {
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      counter: 0,
-      message: 'How now Brown Cow.',
-      secretState: 'Never say How Now Brown Cow.',
+      content: cowsay.say({ text: faker.lorem.words(3) }),
     };
-    this.handleCounterIncrement = this.handleCounterIncrement.bind(this);
-    this.handleCounterDecrement = this.handleCounterDecrement.bind(this);
-    this.setCounter = this.setCounter.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this)
   }
 
-  handleCounterIncrement() {
-    this.setState((previousState) => {
-      return {
-        counter: previousState.counter + 1,
-      };
-    });
-  }
-
-  setCounter(e) {
-    const { value } = e.target;
+  handleTextChange() {
     this.setState(() => {
       return {
-      counter: value, 
+        content: cowsay.say({ text: faker.lorem.words(2) }),
       };
     });
   }
@@ -48,18 +35,8 @@ class App extends React.Component {
     return (
       <div>
         <HeaderComponent/>
-        <h2>Generate Cowsay Lorem</h2>
-        <p> Random Number { Math.random() } </p>
-        <p> The cow says: { this.state.message }</p>
-        <ul>
-          {
-            ['Billie Jean', 'Birdie', 'Jed'].map(content => <li key={ content}> { content }</li>)
-          }
-        </ul>
-        <p> The value of my counter is { this.state.counter }</p>
-        <button onClick={ this.handleCounterIncrement}> Increment Counter! </button>
-        <button onClick={ this.handleCounterDecrement}> Decrement Counter! </button>
-        <input type='number' onChange={this.setCounter} value = {this.state.counter}/>
+        <pre> { this.state.content } </pre>        
+        <button onClick= { this.handleTextChange }> Click me to change my Moo! </button>
       </div>
     );
   }
